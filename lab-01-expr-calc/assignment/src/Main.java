@@ -14,8 +14,8 @@ public class Main {
                 ExpressionVisitor variable_input_visitor = new VariableInputVisitor();
                 Map<Character, Double> map = (Map<Character, Double>)expr.accept(variable_input_visitor);
                 System.out.println("Evaluation result: " + expr.accept(new CalculatorVisitor(map)) + "\n");
-            } catch (Exception ignored) {
-                System.out.println("Invalid input\n");
+            } catch (Exception exception) {
+                System.out.println(exception.getMessage() + "\n");
             }
         }
     }
