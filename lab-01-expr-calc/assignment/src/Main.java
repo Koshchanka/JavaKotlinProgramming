@@ -1,15 +1,22 @@
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Parser parser = new ParserImpl();
         ExpressionVisitor to_string_visitor = new ExpressionToStringVisitor();
-        String expression = "7 - 3 * 5 + (y + 2 + (5 + x)) + 3";
-        Expression expr = parser.parseString(expression);
-        System.out.println("Expression is: " + expr.accept(to_string_visitor));
-        ExpressionVisitor input_visitor = new VariableInputVisitor();
-        Map<Character, Double> map = (Map<Character, Double>) expr.accept(input_visitor);
-        ExpressionVisitor calculator = new CalculatorVisitor(map);
-        System.out.print("Expression value is: " + expr.accept(calculator));
+        Scanner scanner  = new Scanner(System.in);
+        while (true) {
+            try {
+                System.out.print("Enter expression: ");
+                Expression expr = parser.parseString(scanner.nextLine());
+                System.out.println("You've entered: " + expr.accept(to_string_visitor));
+                ExpressionVisitor variable_input_visitor = new VariableInputVisitor();
+                Map<Character, Double> map = (Map<Character, Double>)expr.accept(variable_input_visitor);
+                System.out.println("Evaluation result: " + expr.accept(new CalculatorVisitor(map)) + "\n");
+            } catch (Exception ignored) {
+                System.out.println("Invalid input\n");
+            }
+        }
     }
 }

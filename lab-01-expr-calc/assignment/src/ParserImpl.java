@@ -94,9 +94,13 @@ public class ParserImpl implements Parser {
     }
 
     private void checkTokenSequenceValidity(ArrayList<Expression> tokens) {
-        assert (tokens.size() % 2 == 1);
+        if (tokens.size() % 2 != 1) {
+            throw new RuntimeException("Invalid expression");
+        }
         for (int i = 0; i < tokens.size(); ++i) {
-            assert (tokens.get(i) instanceof BinaryExpression) == (i % 2 == 1) : "Invalid expression";
+            if ((tokens.get(i) instanceof BinaryExpression) != (i % 2 == 1)) {
+                throw new RuntimeException("Invalid expression");
+            }
         }
     }
 }
