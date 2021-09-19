@@ -27,8 +27,8 @@ public class ParserImpl implements Parser {
         tokens.subList(iter, tokens.size()).clear();
     }
 
-    private Expression parseString(String input, Tokenizer tokenizer, boolean shouldEncounterEnclosingParenthesis) {
-        ArrayList<Expression> tokens = tokenizer.tokenize(input, shouldEncounterEnclosingParenthesis);
+    private Expression parseString(String input, Tokenizer tokenizer, boolean shouldBeMoreClosingParentheses) {
+        ArrayList<Expression> tokens = tokenizer.tokenize(input, shouldBeMoreClosingParentheses);
         checkTokenSequenceValidity(tokens);
         clampTokens(tokens, BinOpKind.MUL, BinOpKind.DIV);
         clampTokens(tokens, BinOpKind.ADD, BinOpKind.SUB);
@@ -60,7 +60,7 @@ public class ParserImpl implements Parser {
             return 'A' <= ch && ch <= 'Z' || 'a' <= ch && ch <= 'z';
         }
 
-        private ArrayList<Expression> tokenize(String input, boolean shouldEncounterClosingParenthesis) {
+        private ArrayList<Expression> tokenize(String input, boolean shouldBeMoreClosingParentheses) {
             ArrayList<Expression> tokens = new ArrayList<>();
             for (; pos < input.length(); ++pos) {
                 char curr_symbol = input.charAt(pos);
@@ -70,7 +70,7 @@ public class ParserImpl implements Parser {
                     continue;
                 }
                 if (curr_symbol == ')') {
-                    if (!shouldEncounterClosingParenthesis) {
+                    if (!shouldBeMoreClosingParentheses) {
                         throw new RuntimeException("Wrong parentheses placement");
                     } else {
                         return tokens;
@@ -104,7 +104,7 @@ public class ParserImpl implements Parser {
                     default -> throw new RuntimeException("Invalid char in input");
                 }
             }
-            if (shouldEncounterClosingParenthesis) {
+            if (shouldBeMoreClosingParentheses) {
                 throw new RuntimeException("Wrong parentheses placement");
             }
             return tokens;
