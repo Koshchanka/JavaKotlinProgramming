@@ -1,6 +1,10 @@
 public class BinaryExpression implements Expression {
-    BinaryExpression(BinOpKind op_kind) {
-        mOpKind = op_kind;
+    private Expression mLeft;
+    private Expression mRight;
+    private final BinOpKind mOpKind;
+
+    BinaryExpression(BinOpKind opKind) {
+        mOpKind = opKind;
     }
 
     public Expression getLeft() {
@@ -15,14 +19,13 @@ public class BinaryExpression implements Expression {
         return mOpKind;
     }
 
-    public void setLeftRight(Expression left, Expression right) {
+    public void setLeft(Expression left) {
         mLeft = left;
-        mRight = right;
     }
 
-    private Expression mLeft;
-    private Expression mRight;
-    private BinOpKind mOpKind;
+    public void setRight(Expression right) {
+        mRight = right;
+    }
 
     @Override
     public Object accept(ExpressionVisitor visitor) {

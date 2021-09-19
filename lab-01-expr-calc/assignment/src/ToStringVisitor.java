@@ -1,5 +1,5 @@
-public class ExpressionToStringVisitor implements ExpressionVisitor {
-    private ExpressionToStringVisitor() {}
+public class ToStringVisitor implements ExpressionVisitor {
+    private ToStringVisitor() {}
 
     @Override
     public Object visitBinaryExpression(BinaryExpression expression) {
@@ -28,5 +28,5 @@ public class ExpressionToStringVisitor implements ExpressionVisitor {
         return "(" + expression.getExpression().accept(this) + ")";
     }
 
-    public static ExpressionToStringVisitor INSTANCE = new ExpressionToStringVisitor();
+    public static ToStringVisitor INSTANCE = new ToStringVisitor();
 }

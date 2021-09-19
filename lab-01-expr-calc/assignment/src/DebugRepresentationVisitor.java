@@ -1,6 +1,7 @@
-public class ExpressionDebugRepresentationVisitor implements ExpressionVisitor {
-    private ExpressionDebugRepresentationVisitor() {
-    }
+public class DebugRepresentationVisitor implements ExpressionVisitor {
+    public static DebugRepresentationVisitor INSTANCE = new DebugRepresentationVisitor();
+
+    private DebugRepresentationVisitor() {}
 
     @Override
     public Object visitBinaryExpression(BinaryExpression expression) {
@@ -22,6 +23,4 @@ public class ExpressionDebugRepresentationVisitor implements ExpressionVisitor {
     public Object visitParenthesis(ParenthesisExpression expression) {
         return expression.getExpression().accept(this);
     }
-
-    public static ExpressionDebugRepresentationVisitor INSTANCE = new ExpressionDebugRepresentationVisitor();
 }

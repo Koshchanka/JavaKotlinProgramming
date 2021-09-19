@@ -1,4 +1,6 @@
 public class Literal implements Expression {
+    private final double mValue;
+
     Literal(double value) {
         mValue = value;
     }
@@ -6,8 +8,6 @@ public class Literal implements Expression {
     public double getValue() {
         return mValue;
     }
-
-    private final double mValue;
 
     @Override
     public Object accept(ExpressionVisitor visitor) {

@@ -1,4 +1,6 @@
 public class ParenthesisExpression implements Expression {
+    private final Expression mExpression;
+
     ParenthesisExpression(Expression expression) {
         mExpression = expression;
     }
@@ -6,8 +8,6 @@ public class ParenthesisExpression implements Expression {
     Expression getExpression() {
         return mExpression;
     }
-
-    private Expression mExpression;
 
     @Override
     public Object accept(ExpressionVisitor visitor) {

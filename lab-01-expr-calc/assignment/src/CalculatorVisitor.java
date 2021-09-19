@@ -1,29 +1,20 @@
 import java.util.Map;
 
 public class CalculatorVisitor implements ExpressionVisitor {
+    private final Map<Character, Double> mValues;
+
     CalculatorVisitor(Map<Character, Double> values) {
         mValues = values;
     }
 
-    private Map<Character, Double> mValues;
-
     @Override
     public Object visitBinaryExpression(BinaryExpression expression) {
-        switch (expression.getOpKind()) {
-            case ADD -> {
-                return (Double) expression.getLeft().accept(this) + (Double) expression.getRight().accept(this);
-            }
-            case SUB -> {
-                return (Double) expression.getLeft().accept(this) - (Double) expression.getRight().accept(this);
-            }
-            case MUL -> {
-                return (Double) expression.getLeft().accept(this) * (Double) expression.getRight().accept(this);
-            }
-            case DIV -> {
-                return (Double) expression.getLeft().accept(this) / (Double) expression.getRight().accept(this);
-            }
-        }
-        return 0.0;
+        return switch (expression.getOpKind()) {
+            case ADD -> (Double) expression.getLeft().accept(this) + (Double) expression.getRight().accept(this);
+            case SUB -> (Double) expression.getLeft().accept(this) - (Double) expression.getRight().accept(this);
+            case MUL -> (Double) expression.getLeft().accept(this) * (Double) expression.getRight().accept(this);
+            case DIV -> (Double) expression.getLeft().accept(this) / (Double) expression.getRight().accept(this);
+        };
     }
 
     @Override
