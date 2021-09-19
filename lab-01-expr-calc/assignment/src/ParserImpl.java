@@ -9,6 +9,8 @@ class Int {
 }
 
 public class ParserImpl implements Parser {
+    private ParserImpl() {}
+
     private boolean isNumberChar(char ch) {
         return '0' <= ch && ch <= '9' || ch == '.';
     }
@@ -103,4 +105,6 @@ public class ParserImpl implements Parser {
             }
         }
     }
+
+    public static Parser INSTANCE = new ParserImpl();
 }
