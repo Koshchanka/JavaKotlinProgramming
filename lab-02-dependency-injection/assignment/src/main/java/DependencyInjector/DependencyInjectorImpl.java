@@ -68,18 +68,18 @@ public class DependencyInjectorImpl implements DependencyInjector {
             stack.push(key);
             while (!stack.empty()) {
                 var top = stack.pop();
-                for (Class<?> arg_type : graph.get(top)) {
-                    if (!graph.containsKey(arg_type)) {
+                for (Class<?> argType : graph.get(top)) {
+                    if (!graph.containsKey(argType)) {
                         throw new RuntimeException("A registered class has an unregistered dependency");
                     }
-                    if (visitTime.containsKey(arg_type)) {
-                        if (visitTime.get(arg_type) == cnt) {
+                    if (visitTime.containsKey(argType)) {
+                        if (visitTime.get(argType) == cnt) {
                             throw new RuntimeException("Dependencies graph is not acyclic");
                         }
                         continue;
                     }
-                    stack.push(arg_type);
-                    visitTime.put(arg_type, cnt);
+                    stack.push(argType);
+                    visitTime.put(argType, cnt);
                 }
             }
         }
@@ -95,11 +95,11 @@ public class DependencyInjectorImpl implements DependencyInjector {
     private Object constructInstance(Class<?> cl) {
         Object result = null;
         Class<?>[] parameterTypes = constructors.get(cl).getParameterTypes();
-        List<Object> instantiated_objects = new ArrayList<>();
+        List<Object> instantiatedArgs = new ArrayList<>();
         for (var type : parameterTypes) {
-            instantiated_objects.add(getInstance(type));
+            instantiatedArgs.add(getInstance(type));
         }
-        Object[] array = instantiated_objects.toArray();
+        Object[] array = instantiatedArgs.toArray();
         try {
             result = constructors.get(cl).newInstance(array);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException exception) {
@@ -111,19 +111,19 @@ public class DependencyInjectorImpl implements DependencyInjector {
     private Constructor<?> getInjectConstructor(Class<?> cl) {
         var constructors = cl.getConstructors();
 
-        Constructor<?> inject_constructor = null;
+        Constructor<?> injectConstructor = null;
         for (var constructor : constructors) {
             if (constructor.isAnnotationPresent(Inject.class)) {
-                if (inject_constructor != null) {
+                if (injectConstructor != null) {
                     throw new RuntimeException("`register` called on class with more than one public @Inject constructor");
                 } else {
-                    inject_constructor = constructor;
+                    injectConstructor = constructor;
                 }
             }
         }
-        if (inject_constructor == null) {
+        if (injectConstructor == null) {
             throw new RuntimeException("`register` called on class with no public @Inject constructors");
         }
-        return inject_constructor;
+        return injectConstructor;
     }
 }
