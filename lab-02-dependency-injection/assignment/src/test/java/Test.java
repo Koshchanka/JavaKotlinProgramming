@@ -1,8 +1,7 @@
-import InterfaceImplementation.MyImplementation;
-import InterfaceImplementation.MyInterface;
-import WrongAnnotations.*;
 import Case0.*;
 import Case1.*;
+import InterfaceImplementation.*;
+import WrongAnnotations.*;
 import DependencyInjector.DependencyInjector;
 import DependencyInjector.DependencyInjectorImpl;
 
@@ -26,19 +25,23 @@ public class Test {
     @org.junit.jupiter.api.Test
     public void TestCase1() {
         DependencyInjector Di = new DependencyInjectorImpl();
-        Di.register(Root.class);
-        Di.register(FirstChild.class);
-        Di.register(SecondChild.class);
-        Di.register(SingletonDependency.class);
-        Di.completeRegistration();
-        Root firstRoot = (Root) Di.resolve(Root.class);
-        Root secondRoot = (Root) Di.resolve(Root.class);
-        assertNotEquals(firstRoot, secondRoot);
-        assertNotEquals(firstRoot.getChild(), secondRoot.getChild());
-        assertEquals(firstRoot.getChild().getSingleton(), secondRoot.getChild().getSingleton());
-        SingletonDependency singletonDependency1 = (SingletonDependency) Di.resolve(SingletonDependency.class);
-        SingletonDependency singletonDependency2 = (SingletonDependency) Di.resolve(SingletonDependency.class);
-        assertEquals(singletonDependency1, singletonDependency2);
+        {
+            Di.register(Root.class);
+            Di.register(FirstChild.class);
+            Di.register(SecondChild.class);
+            Di.register(SingletonDependency.class);
+            Di.completeRegistration();
+            Root firstRoot = (Root) Di.resolve(Root.class);
+            Root secondRoot = (Root) Di.resolve(Root.class);
+            assertNotEquals(firstRoot, secondRoot);
+            assertNotEquals(firstRoot.getChild(), secondRoot.getChild());
+            assertEquals(firstRoot.getChild().getSingleton(), secondRoot.getChild().getSingleton());
+        }
+        {
+            SingletonDependency singletonDependency1 = (SingletonDependency) Di.resolve(SingletonDependency.class);
+            SingletonDependency singletonDependency2 = (SingletonDependency) Di.resolve(SingletonDependency.class);
+            assertEquals(singletonDependency1, singletonDependency2);
+        }
     }
 
     @org.junit.jupiter.api.Test
