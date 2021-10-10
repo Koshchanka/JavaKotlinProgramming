@@ -8,9 +8,4 @@ public class SingletonDependency {
     @Inject
     public SingletonDependency() {
     }
-    int i = 10;
-
-    public int getInt() {
-        return i;
-    }
 }
