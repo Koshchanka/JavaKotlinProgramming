@@ -9,6 +9,7 @@ import java.util.*;
 
 public class DependencyInjectorImpl implements DependencyInjector {
 
+    private final Map<Class<?>, Class<?>> interfaceImplementations = new HashMap<>();
     private final List<Class<?>> types = new ArrayList<>();
     private final Map<Class<?>, Object> singletons = new HashMap<>();
     private final Map<Class<?>, Constructor<?>> constructors = new HashMap<>();
@@ -31,6 +32,12 @@ public class DependencyInjectorImpl implements DependencyInjector {
     }
 
     @Override
+    public void register(Class<?> interf, Class<?> cl) {
+        interfaceImplementations.put(interf, cl);
+        register(cl);
+    }
+
+    @Override
     public void completeRegistration() {
         registrationComplete = true;
         checkGraphSanity();
@@ -41,6 +48,9 @@ public class DependencyInjectorImpl implements DependencyInjector {
     public Object resolve(Class<?> cl) {
         if (!registrationComplete) {
             throw new RuntimeException("`resolve` called before `completeRegistration`");
+        }
+        if (interfaceImplementations.containsKey(cl)) {
+            return getInstance(interfaceImplementations.get(cl));
         }
         if (!types.contains(cl)) {
             throw new RuntimeException("Attempted to `resolve` unregistered class");
