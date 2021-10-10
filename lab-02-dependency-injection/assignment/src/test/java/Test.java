@@ -31,14 +31,14 @@ public class Test {
         Di.register(SecondChild.class);
         Di.register(SingletonDependency.class);
         Di.completeRegistration();
-        Root mc1 = (Root) Di.resolve(Root.class);
-        Root mc2 = (Root) Di.resolve(Root.class);
-        assertNotEquals(mc1, mc2);
-        assertNotEquals(mc1.getSecond(), mc2.getSecond());
-        assertEquals(mc1.getSecond().getSingleton(), mc2.getSecond().getSingleton());
-        SingletonDependency scd1 = (SingletonDependency) Di.resolve(SingletonDependency.class);
-        SingletonDependency scd2 = (SingletonDependency) Di.resolve(SingletonDependency.class);
-        assertEquals(scd1, scd2);
+        Root firstRoot = (Root) Di.resolve(Root.class);
+        Root secondRoot = (Root) Di.resolve(Root.class);
+        assertNotEquals(firstRoot, secondRoot);
+        assertNotEquals(firstRoot.getChild(), secondRoot.getChild());
+        assertEquals(firstRoot.getChild().getSingleton(), secondRoot.getChild().getSingleton());
+        SingletonDependency singletonDependency1 = (SingletonDependency) Di.resolve(SingletonDependency.class);
+        SingletonDependency singletonDependency2 = (SingletonDependency) Di.resolve(SingletonDependency.class);
+        assertEquals(singletonDependency1, singletonDependency2);
     }
 
     @org.junit.jupiter.api.Test
