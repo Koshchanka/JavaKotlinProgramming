@@ -1,3 +1,5 @@
+import InterfaceImplementation.MyImplementation;
+import InterfaceImplementation.MyInterface;
 import WrongAnnotations.*;
 import Case0.*;
 import Case1.*;
@@ -37,6 +39,15 @@ public class Test {
         SingletonDependency scd1 = (SingletonDependency) Di.resolve(SingletonDependency.class);
         SingletonDependency scd2 = (SingletonDependency) Di.resolve(SingletonDependency.class);
         assertEquals(scd1, scd2);
+    }
+
+    @org.junit.jupiter.api.Test
+    public void TestInterface() {
+        DependencyInjector Di = new DependencyInjectorImpl();
+        Di.register(MyInterface.class, MyImplementation.class);
+        Di.completeRegistration();
+        MyInterface interf = (MyInterface) Di.resolve(MyInterface.class);
+        assertEquals(interf.GetInt(), 42);
     }
 
     @org.junit.jupiter.api.Test
