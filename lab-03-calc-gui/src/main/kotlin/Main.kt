@@ -25,7 +25,7 @@ class MainWindow : JFrame() {
         val gbc = GridBagConstraints()
         contentPane.layout = gbl
         gbc.fill = GridBagConstraints.BOTH
-        gbc.weightx = 0.0
+        gbc.weightx = 1.0
         gbc.weighty = 1.0
         gbc.insets = Insets(1, 1, 1, 1)
 
